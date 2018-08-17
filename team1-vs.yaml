@@ -1,0 +1,27 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: team1
+  namespace: team1
+spec:
+  hosts:
+    - team1.domain.com                              # <---- FQDN for all services in this namespace
+  gateways:
+  - global-gateway.istio-system.svc.cluster.local   # <---- bind to gateway NOTE: FQDN of the gateway as it lives outside the namespace.
+  http:
+  - match:
+    - uri:
+        prefix: /service1
+    route:
+     - destination:
+        host: service1.team1.svc.cluster.local      # <---- FQDN name of the POD in the form service.namespace.svc.cluster.local
+        port:
+          number: 80                                # <---- bind to port of service
+  - match:
+    - uri:
+        prefix: /service2
+    route:
+     - destination:
+        host: service2.team1.svc.cluster.local      # <---- FQDN name of the POD in the form service.namespace.svc.cluster.local
+        port:
+          number: 80 
