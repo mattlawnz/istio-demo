@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: global-gateway
+spec:
+  selector:
+    istio: ingressgateway                       # <---- use istio default controller. This ingresgateway, is the default gateway, and has been setup as a loadbalancer within the cluster.
+  servers:                                      # <----- This defines your entry points into your gateway, You could just use http, but lets start securely.
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "*.yourdomain.com"                        # <----- URLs to accept here we accept all domains on yourdomain.com
+    tls:                                        # <----- SSL configuration TODO
+      mode: SIMPLE                              # <----- Set to simple 
+      serverCertificate: /etc/istio/ingressgateway-certs/tls.crt
+      privateKey: /etc/istio/ingressgateway-certs/tls.key
