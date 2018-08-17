@@ -16,7 +16,7 @@ spec:
      - destination:
         host: service1.team1.svc.cluster.local      # <---- FQDN name of the POD in the form service.namespace.svc.cluster.local
         port:
-          number: 80                                # <---- bind to port of service
+          number: 9080                                # <---- bind to port of service
   - match:
     - uri:
         prefix: /service2
